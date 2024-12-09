@@ -26,6 +26,7 @@ local M = {
             { "K", function() return vim.lsp.buf.hover() end, desc = "Hover" },
             { "gK", function() return vim.lsp.buf.signature_help() end, desc = "Signature Help", has = "signatureHelp" },
             { "<c-k>", function() return vim.lsp.buf.signature_help() end, mode = "i", desc = "Signature Help", has = "signatureHelp" },
+            { "<leader>cf", vim.lsp.buf.format, mode = { "n", "v" }, desc = "Format", has = "formatting" },
             { "<leader>ca", vim.lsp.buf.code_action, desc = "Code Action", mode = { "n", "v" }, has = "codAction" },
         }
 
