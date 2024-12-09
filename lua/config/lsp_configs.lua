@@ -1,9 +1,9 @@
 local M = {
     servers = {
-        ["racket_langserver"] = {
+        racket_langserver = {
             cmd = { "racket", "--lib", "racket-langserver" },
         },
-        ["lua_ls"] = {
+        lua_ls = {
             settings = {
                 Lua = {
                     workspace = {
