@@ -31,11 +31,7 @@ local M = {
             { "<leader>ca", vim.lsp.buf.code_action,                            desc = "Code Action",            mode = { "n", "v" },     has = "codAction", },
         }
 
-		local lazy_keys = require("lazy.core.handler.keys")
-
 		local client = vim.lsp.get_client_by_id(callback_args.data.client_id)
-		local buffer = callback_args.buf
-
 		local wk = require("which-key")
 
 		for _, keymap in ipairs(keymaps) do

@@ -10,6 +10,7 @@ return {
 		"jmbuhr/cmp-pandoc-references",
 		"saadparwaiz1/cmp_luasnip",
 		"onsails/lspkind-nvim",
+		"rcarriga/cmp-dap",
 	},
 	opts = function()
 		local cmp = require("cmp")
@@ -75,6 +76,10 @@ return {
 			}, {
 				{ name = "buffer" },
 			}),
+			enabled = function()
+				return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt"
+					or require("cmp_dap").is_dap_buffer()
+			end,
 		}
 	end,
 	config = function(_, opts)
@@ -92,6 +97,12 @@ return {
 				{ name = "cmdline" },
 			}),
 			matching = { disallow_sumbol_nonprefix_matching = false },
+		})
+
+		cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
+			sources = {
+				{ name = "dap" },
+			},
 		})
 	end,
 }
