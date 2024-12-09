@@ -79,6 +79,7 @@ return {
         opts = function()
             local null_ls = require("null-ls")
             return {
+                root_dir = require("null-ls.utils").root_pattern(".null-ls-root", "Makefile", "compile_commands.json", ".git"),
                 sources = {
                     null_ls.builtins.formatting.black,
                     null_ls.builtins.formatting.fish_indent,
@@ -91,6 +92,11 @@ return {
         end,
         config = function(_, opts)
             require("null-ls").setup(opts)
+
+            vim.api.nvim_create_autocmd("LspAttach", {
+                callback = require("config.lsp_configs").on_attach
+            })
+
         end
 
     },
