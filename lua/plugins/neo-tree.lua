@@ -7,32 +7,34 @@ return {
 		"3rd/image.nvim",
 	},
 	cmd = "Neotree",
-	keys = {
-		{
-			"<leader>Tr",
-			function()
-				require("neo-tree.command").execute({ toggle = true, source = "buffers", position = "left" })
-			end,
-			desc = "Buffers (root dir)",
-			mode = "n",
-		},
-		{
-			"<leader>Tg",
-			function()
-				require("neo-tree.command").execute({ toggle = true, source = "git_status", position = "left" })
-			end,
-			desc = "Buffers (root dir)",
-			mode = "n",
-		},
-		{
-			"<leader>t",
-			function()
-				require("neo-tree.command").execute({ toggle = true, position = "left" })
-			end,
-			desc = "Browse",
-			mode = "n",
-		},
-	},
+
+    -- stylua: ignore
+    keys = {
+        {
+            "<leader>Tr",
+            function()
+                require("neo-tree.command").execute({ toggle = true, source = "buffers", position = "left", })
+            end,
+            desc = "Buffers (root dir)",
+            mode = "n",
+        },
+        {
+            "<leader>Tg",
+            function()
+                require("neo-tree.command").execute({ toggle = true, source = "git_status", position = "left", })
+            end,
+            desc = "Buffers (root dir)",
+            mode = "n",
+        },
+        {
+            "<leader>t",
+            function()
+                require("neo-tree.command").execute({ toggle = true, position = "left" })
+            end,
+            desc = "Browse",
+            mode = "n",
+        },
+    },
 	deactivate = function()
 		vim.cmd([[Neotree close]])
 	end,
@@ -70,8 +72,4 @@ return {
 			},
 		},
 	},
-	init = function()
-		local wk = require("which-key")
-		wk.add({ "<leader>T", group = "Neo-Tree", mode = "n" })
-	end,
 }
