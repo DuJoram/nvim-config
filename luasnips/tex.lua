@@ -91,23 +91,19 @@ return {}, {
 			condition = math,
 		}
 	),
-	s(
-		{
-			trig = "([}A-Za-z])(%d)",
-			name = "auto subscript",
-			descr = "auto subscript",
-			wordTrig = false,
-			regTrig = true,
-		},
-		{
-			f(function(_, snip)
-				return { snip.captures[1] .. "_" .. snip.captures[2] }
-			end, {}),
-		},
-		{
-			condition = math,
-		}
-	),
+	s({
+		trig = "([}A-Za-z])(%d)",
+		name = "auto subscript",
+		descr = "auto subscript",
+		wordTrig = false,
+		regTrig = true,
+	}, {
+		f(function(_, snip)
+			return { snip.captures[1] .. "_" .. snip.captures[2] }
+		end, {}),
+	}, {
+		condition = math,
+	}),
 	s({ trig = "_(%d%d)", name = "auto subscript 2", descr = "auto subscript 2", wordTrig = false, regTrig = true }, {
 		f(function(_, snip)
 			return { "_{" .. snip.captures[1] .. "}" }
@@ -240,12 +236,6 @@ return {}, {
 		{ condition = math }
 	),
 	s(
-		{ trig = "MVAE[%+p]", name = "MVAE+ 2", descr = "MVAE+ 2", regTrig = true },
-		fmta([[MVAE\(^+\)<>]], { i(0) }),
-		{ condition = not_label_or_ref }
-	),
-	s({ trig = "mvae", name = "MVAE", descr = "MVAE" }, fmta([[ MVAE<>]], { i(0) }), { condition = not_label_or_ref }),
-	s(
 		{ trig = "lr(", name = "\\left(\\right)", descr = "\\left(\\right)", wordTrig = false },
 		fmta([[\left(<>\right)<>]], { i(1), i(0) }),
 		{ condition = math }
@@ -265,16 +255,12 @@ return {}, {
 		fmta([[\left\langle<>\right\rangle<>]], { i(1), i(0) }),
 		{ condition = math }
 	),
-	s(
-		{
-			trig = "ceil",
-			name = "\\left\\lceil\\right\\rceil",
-			descr = "\\left\\lceil\\right\\rfloor",
-			wordTrig = false,
-		},
-		fmta([[\left\lceil<>\right\rceil<>]], { i(1), i(0) }),
-		{ condition = math }
-	),
+	s({
+		trig = "ceil",
+		name = "\\left\\lceil\\right\\rceil",
+		descr = "\\left\\lceil\\right\\rfloor",
+		wordTrig = false,
+	}, fmta([[\left\lceil<>\right\rceil<>]], { i(1), i(0) }), { condition = math }),
 	s({
 		trig = "floor",
 		name = "\\left\\lfloor\\right\\rfloor",
