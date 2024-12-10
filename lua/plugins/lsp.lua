@@ -63,9 +63,9 @@ return {
 			"williamboman/mason-lspconfig.nvim",
 		},
 		config = function(_, opts)
-			-- Extend configurations servers if set in config.lsp_configs.
+			-- Extend configurations servers if set in config.lsp.
 			local lspconfig = require("lspconfig")
-			for server, settings in pairs(require("config.lsp_configs").servers) do
+			for server, settings in pairs(require("config.lsp").servers) do
 				lspconfig[server].setup(settings)
 			end
 		end,
@@ -112,7 +112,7 @@ return {
 			require("null-ls").setup(opts)
 
 			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = require("config.lsp_configs").on_attach,
+				callback = require("config.lsp").on_attach,
 			})
 		end,
 	},
