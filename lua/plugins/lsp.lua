@@ -95,13 +95,20 @@ return {
 					null_ls.builtins.diagnostics.fish,
 				},
 				on_attach = function(client, bufnr)
+					local formatter_servers = require("config.lsp").formatter_servers
 					if client.supports_method("textDocument/formatting") then
 						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 						vim.api.nvim_create_autocmd("BufWritePre", {
 							group = augroup,
 							buffer = bufnr,
 							callback = function()
-								vim.lsp.buf.format({ async = false })
+								vim.lsp.buf.format({
+									bufnr = bufnr,
+									async = false,
+									filter = function(client_)
+										return formatter_servers[client_.name] ~= nil or client_.name == "null-ls"
+									end,
+								})
 							end,
 						})
 					end
@@ -111,8 +118,10 @@ return {
 		config = function(_, opts)
 			require("null-ls").setup(opts)
 
+			local lspconfig = require("config.lsp")
+
 			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = require("config.lsp").on_attach,
+				callback = lspconfig.on_attach,
 			})
 		end,
 	},

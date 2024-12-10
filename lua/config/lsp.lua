@@ -16,6 +16,9 @@ local M = {
 			},
 		},
 	},
+	formatter_servers = {
+		racket_langserver = true,
+	},
 	on_attach = function(callback_args)
         -- stylua: ignore
         local keymaps = {
