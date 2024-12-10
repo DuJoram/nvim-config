@@ -53,21 +53,3 @@ wk.add({
 		{ ">", ">gv", desc = "Increase indentation of visual block" },
 	},
 })
-
--- for _, mapping in pairs(maps) do
---     if #mapping == 3 then
---         mapping[4] = nil
---     end
---     assert(#mapping == 4)
---
---     mode, lhs, rhs, opts = unpack(mapping)
---     if not lazy_keys.active[lazy_keys.parse({lhs, mode=mode}).id] then
---         opts = opts or {}
---         if opts.remap then
---             opts.remap = nil
---         end
---         vim.keymap.set(mode, lhs, rhs, opts)
---     end
--- end
---
---

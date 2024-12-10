@@ -1,14 +1,10 @@
 local ls = require("luasnip")
---ls.config.set_config({ region_check_events = "InsertEnter", delete_check_events = "InsertLeave" })
 local s = ls.snippet
--- local sn = ls.snippet_node
 local t = ls.text_node
 local i = ls.insert_node
 local f = ls.function_node
--- local d = ls.dynamic_node
 local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
--- local rep = require("luasnip.extras").rep
 
 local function math()
 	return vim.api.nvim_eval("vimtex#syntax#in_mathzone()") == 1
@@ -27,27 +23,6 @@ end
 local function not_math()
 	return not math()
 end
-
--- local function comment()
---     return vim.api.nvim_eval('vimtex#syntax#in_comment()') == 1
--- end
---
--- local function in_env(name)
---     return function ()
---         local ret = vim.api.nvim_eval('vimtex#env#is_inside("' .. name .. '")')
---         return (ret[1] ~= 0) and (ret[2] ~= 0)
---     end
--- end
-
---local function fmtt(format, nodes, opts)
---    local fmt = require("luasnip.extras.fmt").fmt
---    if opts == nil then
---        opts = {delimiters = "<>"}
---    else
---        opts.delimters = '<>'
---    end
---    return fmt(format, nodes, opts)
---end
 
 return {}, {
 	s("mk", {
