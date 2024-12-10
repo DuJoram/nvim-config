@@ -8,6 +8,19 @@ return {
 		version = false,
 		event = { "BufReadPost", "BufNewFile" },
 		opts = {
+			highlight = { enable = true },
+			indent = { enable = true },
+			sync_install = true,
+			auto_intsall = true,
+			indremental_selection = {
+				enable = true,
+				keymaps = {
+					init_selection = "<C-space>",
+					node_incremental = "<C-space>",
+					scope_incremental = false,
+					node_decremental = "<bs>",
+				},
+			},
 			ensure_installed = {
 				"bash",
 				"c",
@@ -43,7 +56,6 @@ return {
 		config = function(_, opts)
 			local configs = require("nvim-treesitter.configs")
 			configs.setup(opts)
-			require("nvim-treesitter").setup(opts)
 		end,
 	},
 	{
