@@ -8,7 +8,7 @@ return {
 		},
 		sections = {
 			lualine_a = { "mode" },
-			lualine_b = { "FugitiveHead", "diff", "diagnostics" },
+			lualine_b = { "branch", "diff", "diagnostics" },
 			lualine_c = { "filename" },
 			lualine_x = { "encoding", "fileformat", { "filetype", icon = { align = "right" } } },
 			lualine_z = { "location" },
@@ -21,6 +21,6 @@ return {
 			lualine_y = {},
 			lualine_z = {},
 		},
-		extensions = { "neo-tree", "lazy", "fugitive" },
+		extensions = { "neo-tree", "lazy" },
 	},
 }
