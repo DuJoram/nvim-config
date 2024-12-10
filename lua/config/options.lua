@@ -45,4 +45,4 @@ opt.wrap = false -- Disable line wrap
 
 
 -- Requires plugin 'EdenEast/nightfox.nvim' without lazy loading and high priority.
-vim.cmd.colorscheme("carbonfox")
+vim.cmd.colorscheme("nightfox")
