@@ -4,6 +4,8 @@ return {
 
 	depndencies = { "nvim-lua/plenary.nvim" },
 
+	wk_groups = { "<leader>f", desc = "Find" },
+
 	keys = {
 		{ "<leader>f", desc = "Find" },
 		{ "<leader><space>", "<cmd>Telescope find_files<cr>", desc = "Find Files" },

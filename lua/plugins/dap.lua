@@ -2,7 +2,8 @@ return {
 	{
 		"mfussenegger/nvim-dap",
 
-        -- stylua: ignore
+        -- stylua: ignore start
+        wk_groups = { "<leader>d", desc = "Debug" },
         keys = {
             { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
             { "<leader>db", function() require("dap").toggle_breakpoint() end,                                    desc = "Toggle Breakpoint" },
@@ -21,6 +22,7 @@ return {
             { "<leader>dt", function() require("dap").terminate() end,                                            desc = "Terminate" },
             { "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
         },
+		-- stylua: ignore end
 	},
 	{
 		"mfussenegger/nvim-dap-python",

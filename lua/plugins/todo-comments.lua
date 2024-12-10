@@ -3,6 +3,7 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim" },
 	cmd = { "TodoTelescope" },
 	event = { "BufReadPost", "BufNewFile" },
+	wk_groups = { "<leader>x", desc = "TODO/FIXME/..." },
 	config = true,
 
     -- stylua: ignore

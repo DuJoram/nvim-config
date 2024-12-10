@@ -8,6 +8,7 @@ return {
 	},
 	cmd = "Neotree",
 
+	wk_groups = { "<leader>T", desc = "Neo-Tree" },
     -- stylua: ignore
     keys = {
         {

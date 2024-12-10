@@ -5,6 +5,8 @@ wk.add({
 	{
 		mode = "n",
 
+		{ "<leader>c", desc = "Commands" },
+
 		-- Window navigation
 		{ "<C-h>", "<C-w>h", desc = "Go to left window" },
 		{ "<C-j>", "<C-w>j", desc = "Go to lower window" },
