@@ -106,7 +106,12 @@ return {
 									bufnr = bufnr,
 									async = false,
 									filter = function(client_)
-										return formatter_servers[client_.name] ~= nil or client_.name == "null-ls"
+										local res = (
+											formatter_servers[client_.name] ~= nil
+											-- Strange form. But a non-nil, non-boolean variable evaluates to true.
+											and (formatter_servers[client_.name] == true)
+										) or client_.name == "null-ls"
+										return res
 									end,
 								})
 							end,
