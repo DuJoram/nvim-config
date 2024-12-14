@@ -91,6 +91,7 @@ return {
 					null_ls.builtins.formatting.fish_indent,
 					null_ls.builtins.formatting.isort,
 					null_ls.builtins.formatting.stylua,
+					null_ls.builtins.formatting.clang_format,
 					null_ls.builtins.formatting.shfmt.with({ extra_args = { "-i", 2 } }),
 					null_ls.builtins.diagnostics.fish,
 				},
