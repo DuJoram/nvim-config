@@ -1,6 +1,13 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
+		dependencies = {
+			{
+				"Joakker/lua-json5",
+				build = "./install.sh",
+			},
+			{ "mfussenegger/nvim-dap-python" },
+		},
 
         -- stylua: ignore start
         wk_groups = { "<leader>d", desc = "Debug" },
@@ -23,13 +30,22 @@ return {
             { "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
         },
 		-- stylua: ignore end
+		config = function()
+			local dap = require("dap")
+			require("dap.ext.vscode").json_decode = require("json5").parse
+			dap.adapters.gdb = {
+				type = "executable",
+				command = "gdb",
+				args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
+			}
+		end,
 	},
 	{
 		"mfussenegger/nvim-dap-python",
-		dependencies = { "mfussenegger/nvim-dap" },
 		config = function()
-			local path = require("mason-registry").get_package("debugpy"):get_install_path()
-			require("dap-python").setup(path .. "/venv/bin/python")
+			local path =
+				vim.fs.joinpath((vim.env.MASON or vim.fn.stdpath("state")), "packages/debugpy", "venv/bin/python")
+			require("dap-python").setup(path)
 		end,
 	},
 	{
@@ -74,5 +90,6 @@ return {
 			},
 			automatic_installation = true,
 		},
+		config = function() end,
 	},
 }

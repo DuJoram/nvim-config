@@ -44,3 +44,6 @@ opt.wrap = false -- Disable line wrap
 
 -- Requires plugin 'EdenEast/nightfox.nvim' without lazy loading and high priority.
 vim.cmd.colorscheme("nightfox")
+
+-- configure nvim specific virtual environment
+vim.g.python3_host_prog = vim.fs.find("python3", { path = vim.fs.joinpath(vim.fn.stdpath("config"), ".venv/bin/") })[1]

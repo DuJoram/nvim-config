@@ -8,10 +8,16 @@ return {
 		version = false,
 		event = { "BufReadPost", "BufNewFile" },
 		opts = {
-			highlight = { enable = true },
+			highlight = {
+				enable = true,
+				additional_vim_regex_highlighting = false,
+			},
 			indent = { enable = true },
 			sync_install = true,
 			auto_intsall = true,
+			matchup = {
+				enable = true,
+			},
 			indremental_selection = {
 				enable = true,
 				keymaps = {
@@ -47,6 +53,35 @@ return {
 				"vim",
 				"vimdoc",
 				"yaml",
+			},
+			textobjects = {
+				move = {
+					enable = true,
+					set_jumps = false,
+					goto_next_start = {
+						["]b"] = { query = "@code_cell.inner", desc = "Next code cell" },
+					},
+					goto_previous_start = {
+						["[b"] = { query = "@code_cell.inner", desc = "Previous code cell" },
+					},
+				},
+				select = {
+					enable = true,
+					lookahead = true,
+					keymaps = {
+						["ib"] = { query = "@code_cell.inner", desc = "In block" },
+						["ab"] = { query = "@code_cell.outer", desc = "Around block" },
+					},
+				},
+				swap = {
+					enable = true,
+					swap_next = {
+						["<leader>sbl"] = "@code_cell.outer",
+					},
+					swap_previous = {
+						["<leader>sbh"] = "@code_cell.outer",
+					},
+				},
 			},
 		},
 		keys = {

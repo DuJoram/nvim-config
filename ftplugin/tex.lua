@@ -1,0 +1,9 @@
+-- local wk = require("which-key")
+--
+-- wk.add({
+-- 	{ "<leader>lv", ":TexlabForward<CR>", desc = "Forward search", mode = "n" },
+-- 	{ "<leader>lk", ":TexlabCancelBuild<CR>", desc = "Cancel build", mode = "n" },
+-- 	{ "<leader>lc", ":TexlabCleanAuxiliary<CR>", desc = "Clean auxiliary files", mode = "n" },
+-- 	{ "<leader>lC", ":TexlabCleanArtifacts<CR>", desc = "Clean artifacts", mode = "n" },
+-- 	{ "cse", ":TexlabChangeEnvironment<CR>", desc = "Change surrounding environment", mode = "n" },
+-- })

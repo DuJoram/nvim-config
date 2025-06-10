@@ -12,7 +12,7 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = augroup("highlight_yank"),
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.on_yank()
 	end,
 })
 
@@ -75,7 +75,31 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		if event.match:match("^%w%w+://") then
 			return
 		end
-		local file = vim.loop.fs_realpath(event.match) or event.match
+		local file = vim.uv.fs_realpath(event.match) or event.match
 		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+	end,
+})
+
+-- Session debug breakpoint save and restoer
+vim.api.nvim_create_autocmd("User", {
+	pattern = "SessionLoadPost",
+	callback = function()
+		require("config.dap-breakpoints").load_breakoints()
+	end,
+})
+
+vim.api.nvim_create_user_command("LoadDapBreakpoints", function()
+	require("config.dap-breakpoints").load_breakoints()
+end, {})
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+	callback = function()
+		require("config.dap-breakpoints").save_breakpoints()
+	end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+	callback = function()
+		require("config.dap-breakpoints").save_breakpoints()
 	end,
 })
