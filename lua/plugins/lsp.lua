@@ -1,12 +1,12 @@
 return {
   {
     "williamboman/mason.nvim",
-    cmd = "Maosn",
+    cmd = "Mason",
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
     opts = {
       ensure_installed = {
         "shfmt",
-        "isort",
+        -- "isort",
         "stylua",
         "luacheck",
         --     "shfmt",
@@ -42,7 +42,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
       "williamboman/mason.nvim",
-      "nevim/nvim-lspconfig",
+      "neovim/nvim-lspconfig",
     },
     opts = {
       ensure_installed = {
