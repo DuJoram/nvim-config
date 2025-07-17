@@ -1,55 +1,32 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     cmd = "Mason",
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-    opts = {
-      ensure_installed = {
-        "shfmt",
-        -- "isort",
-        "stylua",
-        "luacheck",
-        --     "shfmt",
-        --     "isort",
-        --     "bash-language-server",
-        --     "clangd",
-        --     "ltex-ls",
-        --     "stylua",
-        --     "lua-language-server",
-        --     "luacheck",
-      },
-    },
-    config = function(_, opts)
-      require("mason").setup(opts)
-      local registry = require("mason-registry")
-      local function ensure_installed()
-        for _, tool in ipairs(opts.ensure_installed) do
-          local p = registry.get_package(tool)
-          if not p:is_installed() then
-            p:install()
-          end
-        end
-      end
-
-      if registry.refresh then
-        registry.refresh(ensure_installed)
-      else
-        ensure_installed()
-      end
-    end,
+    opts = {},
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     dependencies = {
-      "williamboman/mason.nvim",
+      "mason-org/mason.nvim",
       "neovim/nvim-lspconfig",
     },
     opts = {
       ensure_installed = {
-        "bashls",
+        "bash-language-server",
+        "clang-format",
         "clangd",
-        "ltex",
-        "lua_ls",
+        "debugpy",
+        "jedi-language-server",
+        "ltex-ls",
+        "lua-language-server",
+        "luacheck",
+        "mypy",
+        "pyproject-fmt",
+        "ruff",
+        "shfmt",
+        "stylua",
+        "texlab",
       },
       -- handlers = {
       -- 	function(server_name)
@@ -61,6 +38,9 @@ return {
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "mason-org/mason.nvim",
+    },
     config = function(_, opts)
       -- Extend configurations servers if set in config.lsp.
       local lspconfig = require("lspconfig")
@@ -117,9 +97,9 @@ return {
           ".luarc.json"
         ),
         sources = {
-          null_ls.builtins.formatting.black,
+          -- null_ls.builtins.formatting.black,
           null_ls.builtins.formatting.fish_indent,
-          null_ls.builtins.formatting.isort,
+          -- null_ls.builtins.formatting.isort,
           null_ls.builtins.formatting.stylua,
           null_ls.builtins.formatting.clang_format,
           null_ls.builtins.formatting.shfmt.with({ extra_args = { "-i", 2 } }),
@@ -166,5 +146,42 @@ return {
     config = function()
       require("inc_rename").setup()
     end,
+  },
+  {
+    "stevearc/conform.nvim",
+    dependencies = { "mason-org/mason.nvim" },
+    event = { "BufWritePre" },
+    cmd = "ConformInfo",
+    keys = {
+      {
+        "<leader>cF",
+        function()
+          require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
+        end,
+        mode = { "n", "v" },
+        desc = "Format Injected Languages",
+      },
+    },
+    opts = {
+      default_format_opts = {
+        timeout_ms = 3000,
+        async = false,
+        quiet = false,
+        lsp_format = "fallback",
+      },
+      formatters_by_ft = {
+        lua = { "stylua" },
+        fish = { "fish_indent" },
+        sh = { "shfmt" },
+        python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
+      },
+      formatters = {
+        injected = { options = { ignore_errors = true } },
+      },
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_format = "fallback",
+      },
+    },
   },
 }

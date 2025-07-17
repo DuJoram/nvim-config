@@ -12,6 +12,7 @@ local M = {
           completion = {
             callSnippet = "Replace",
           },
+          telemetry = { enable = false },
         },
       },
     },
