@@ -20,7 +20,7 @@ return {
         "jedi-language-server",
         "ltex-ls",
         "lua-language-server",
-        "luacheck",
+        -- "luacheck",
         "mypy",
         "pyproject-fmt",
         "ruff",
@@ -40,6 +40,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "mason-org/mason.nvim",
+      "folke/neoconf.nvim",
     },
     config = function(_, opts)
       -- Extend configurations servers if set in config.lsp.
