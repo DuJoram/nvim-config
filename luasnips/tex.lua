@@ -233,4 +233,49 @@ return {}, {
     descr = "infinity",
     wordTrig = false,
   }, { t("\\infty") }, { condition = math }),
+  s({
+    trig = "%stt",
+    name = "_t",
+    descr = "_t",
+    regTrig = true,
+    wordTrig = false,
+  }, { t("_t") }, { condition = math }),
+  s({
+    trig = "tt",
+    name = "_t",
+    descr = "_t",
+    regTrig = true,
+    wordTrig = true,
+  }, { t("_t") }, { condition = math }),
+  s({
+    trig = "_t([mp%-%+])(%d)",
+    name = "_{t -/+ n}",
+    descr = "_{t -/+ n}",
+    wordTrig = false,
+    regTrig = true,
+  }, {
+    f(function(_, snip)
+      local sign = snip.captures[1]
+      if sign == "m" then
+        sign = "-"
+      elseif sign == "p" then
+        sign = "+"
+      end
+      return { "_{t" .. sign .. snip.captures[2] .. "}" }
+    end, {}),
+  }, {
+    condition = math,
+  }),
+  s({
+    trig = "_t([mp])_(%d)",
+    name = "_{t +/ n}",
+    descr = "_{t +/ n}",
+    wordTrig = false,
+    regTrig = true,
+  }, {
+    f(function(_, snip)
+      local sign = snip.captures[1] == "m" and "-" or "+"
+      return { "_{t" .. sign .. snip.captures[2] .. "} " }
+    end, {}),
+  }, { condition = math }),
 }
