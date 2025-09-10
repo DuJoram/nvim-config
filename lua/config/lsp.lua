@@ -46,6 +46,47 @@ local M = {
         },
       },
     },
+    tinymist = {
+      on_attach = function(client, bufnr)
+        local fullfile = vim.api.nvim_buf_get_name(bufnr)
+        local basename = vim.fs.basename(fullfile)
+        if vim.fs.basename(fullfile) == "main.typ" or vim.uv.fs_stat(fullfile .. ".typstmain") then
+          client:exec_cmd({
+            title = "pin",
+            command = "tinymist.pinMain",
+            arguments = { fullfile },
+          }, { bufnr = bufnr })
+          vim.notify("Typst Main: '" .. fullfile .. "'")
+        end
+
+        local root = vim.fs.root(bufnr, ".git")
+        if root == nil then
+          root = "/"
+        end
+
+        local typstmain = vim.fs.find(function(name, path)
+          return name == "main.typ" or name:match(".*.typstmain$")
+        end, { limit = math.huge, type = "file", path = root })
+        if #typstmain > 0 then
+          local main = typstmain[1]
+          if main:match(".*.typstmain$") then
+            main = vim.fn.fnamemodify(main, ":r")
+          end
+          if not main:match(".*.typ$") then
+            main = main .. ".typ"
+          end
+
+          if vim.uv.fs_stat(main) then
+            client:exec_cmd({
+              title = "pin",
+              command = "tinymist.pinMain",
+              arguments = { main },
+            }, { bufnr = bufnr })
+            vim.notify("!Typst Main: '" .. main .. "'")
+          end
+        end
+      end,
+    },
   },
   formatter_servers = {
     racket_langserver = true,
