@@ -13,26 +13,27 @@ return {
     },
     opts = {
       ensure_installed = {
-        "bash-language-server",
-        "clang-format",
+        "bashls",
+        -- "clang-format",
         "clangd",
-        "debugpy",
-        "jedi-language-server",
-        "ltex-ls",
-        "lua-language-server",
+        -- "debugpy",
+        "jedi_language_server",
+        "ltex",
+        "lua_ls",
         -- "luacheck",
-        "mypy",
-        "pyproject-fmt",
+        -- "mypy",
+        -- "pyproject-fmt",
         "ruff",
-        "shfmt",
-        "stylua",
+        -- "shfmt",
+        -- "stylua",
         "texlab",
+        "tinymist",
       },
-      -- handlers = {
-      -- 	function(server_name)
-      -- 		require("lspconfig")[server_name].setup({})
-      -- 	end,
-      -- },
+      handlers = {
+        function(server_name)
+          require("lspconfig")[server_name].setup({})
+        end,
+      },
     },
   },
 
