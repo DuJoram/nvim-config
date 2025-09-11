@@ -48,34 +48,13 @@ local M = {
     },
     tinymist = {
       on_attach = function(client, bufnr)
-        local root = vim.fs.root(bufnr, ".git")
-        if root == nil then
-          root = "/"
-        end
-
-        local typstmain = vim.fs.find(function(name, _)
-          return name == "main.typ" or name:match(".*.typstmain$")
-        end, { limit = math.huge, type = "file", path = root })
-        if #typstmain > 0 then
-          local main = typstmain[1]
-          if main:match(".*.typstmain$") then
-            main = vim.fn.fnamemodify(main, ":r")
-          end
-          if not main:match(".*.typ$") then
-            main = main .. ".typ"
-          end
-
-          if vim.uv.fs_stat(main) then
-            client:exec_cmd({
-              title = "pin",
-              command = "tinymist.pinMain",
-              arguments = { main },
-            }, { bufnr = bufnr })
-            vim.notify("Typst Main: '" .. main .. "'")
-            return
-          end
-        end
-        vim.notify("No typstmain could be identified")
+        local main = require("config.util").typst_find_main(bufnr)
+        client:exec_cmd({
+          title = "pin",
+          command = "tinymist.pinMain",
+          arguments = { main },
+        }, { bufnr = bufnr })
+        vim.notify("Typst Main: '" .. main .. "'")
       end,
     },
   },
