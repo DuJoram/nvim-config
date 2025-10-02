@@ -25,23 +25,44 @@ return {
         end,
       },
       mapping = cmp.mapping.preset.insert({
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        -- ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        -- ["<CR>"] = cmp.mapping(function(fallback)
+        --   if cmp.visible() then
+        --     if luasnip.expandable() then
+        --       luasnip.expand()
+        --     else
+        --       cmp.confirm({
+        --         select = true,
+        --       })
+        --     end
+        --   else
+        --     fallback()
+        --   end
+        -- end),
+        ["<CR>"] = cmp.mapping({
+          i = function(fallback)
+            if cmp.visible() and cmp.get_active_entry() then
+              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+            else
+              fallback()
+            end
+          end,
+          s = cmp.mapping.confirm({ select = true }),
+          c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+        }),
         ["<TAB>"] = cmp.mapping(function(fallback)
-          local col = vim.fn.col(".") - 1
-          if luasnip.expand_or_locally_jumpable() then
-            luasnip.expand_or_jump()
-          elseif cmp.visible() then
+          if cmp.visible() then
             cmp.select_next_item()
-          elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-            fallback()
+          elseif luasnip.locally_jumpable(1) then
+            luasnip.jump(1)
           else
-            cmp.complete()
+            fallback()
           end
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
+          elseif luasnip.locally_jumpable(-1) then
             luasnip.jump(-1)
           else
             fallback()
