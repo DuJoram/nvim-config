@@ -31,7 +31,7 @@ return {
       },
       handlers = {
         function(server_name)
-          require("lspconfig")[server_name].setup({})
+          vim.lsp.config[server_name].setup({})
         end,
       },
     },
@@ -45,10 +45,9 @@ return {
     },
     config = function(_, opts)
       -- Extend configurations servers if set in config.lsp.
-      local lspconfig = require("lspconfig")
-      for server, settings in pairs(require("config.lsp").servers) do
-        lspconfig[server].setup(settings)
-      end
+      -- for server, settings in pairs(require("config.lsp").servers) do
+      --   vim.lsp.config[server].setup(settings)
+      -- end
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "LspSupportsMethod",
@@ -57,10 +56,10 @@ return {
           local buffer = args.data.buffer
           if client then
             if
-              "textDocument/inlayHint" == args.data.method
-              and vim.api.nvim_buf_is_valid(buffer)
-              and vim.bo[buffer].buftype == ""
-              and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+                "textDocument/inlayHint" == args.data.method
+                and vim.api.nvim_buf_is_valid(buffer)
+                and vim.bo[buffer].buftype == ""
+                and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
             then
               vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
             end

@@ -12,12 +12,14 @@ return {
     "onsails/lspkind-nvim",
     "rcarriga/cmp-dap",
   },
+  event = { "InsertEnter", "CmdlineEnter" },
   opts = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     return {
+      preselect = 'none',
       completion = {
-        completeopt = "menu,menuone,noinsert",
+        completeopt = "menu,menuone,noinsert,noselect",
       },
       snippet = {
         expand = function(args)
@@ -26,30 +28,19 @@ return {
       },
       mapping = cmp.mapping.preset.insert({
         -- ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        -- ["<CR>"] = cmp.mapping(function(fallback)
-        --   if cmp.visible() then
-        --     if luasnip.expandable() then
-        --       luasnip.expand()
-        --     else
-        --       cmp.confirm({
-        --         select = true,
-        --       })
-        --     end
-        --   else
-        --     fallback()
-        --   end
-        -- end),
-        ["<CR>"] = cmp.mapping({
-          i = function(fallback)
-            if cmp.visible() and cmp.get_active_entry() then
-              cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+        ["<CR>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            if luasnip.expandable() then
+              luasnip.expand()
             else
-              fallback()
+              cmp.confirm({
+                select = true,
+              })
             end
-          end,
-          s = cmp.mapping.confirm({ select = true }),
-          c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
-        }),
+          else
+            fallback()
+          end
+        end),
         ["<TAB>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
