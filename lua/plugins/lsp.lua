@@ -17,22 +17,17 @@ return {
         -- "clang-format",
         "clangd",
         -- "debugpy",
-        "jedi_language_server",
+        -- "jedi_language_server",
         "ltex",
         "lua_ls",
         -- "luacheck",
         -- "mypy",
         -- "pyproject-fmt",
-        "ruff",
+        -- "ruff",
         -- "shfmt",
         -- "stylua",
         "texlab",
         "tinymist",
-      },
-      handlers = {
-        function(server_name)
-          vim.lsp.config[server_name].setup({})
-        end,
       },
     },
   },
@@ -40,15 +35,10 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "mason-org/mason.nvim",
       "folke/neoconf.nvim",
     },
     config = function(_, opts)
       -- Extend configurations servers if set in config.lsp.
-      -- for server, settings in pairs(require("config.lsp").servers) do
-      --   vim.lsp.config[server].setup(settings)
-      -- end
-
       vim.api.nvim_create_autocmd("User", {
         pattern = "LspSupportsMethod",
         callback = function(args)
@@ -56,10 +46,10 @@ return {
           local buffer = args.data.buffer
           if client then
             if
-                "textDocument/inlayHint" == args.data.method
-                and vim.api.nvim_buf_is_valid(buffer)
-                and vim.bo[buffer].buftype == ""
-                and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+              "textDocument/inlayHint" == args.data.method
+              and vim.api.nvim_buf_is_valid(buffer)
+              and vim.bo[buffer].buftype == ""
+              and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
             then
               vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
             end
@@ -80,68 +70,69 @@ return {
       })
     end,
   },
-  {
-    "nvimtools/none-ls.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    opts = function()
-      local null_ls = require("null-ls")
-      local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-      return {
-        root_dir = require("null-ls.utils").root_pattern(
-          ".null-ls-root",
-          "Makefile",
-          "compile_commands.json",
-          ".git",
-          "stylua.toml",
-          ".luarc.json"
-        ),
-        sources = {
-          -- null_ls.builtins.formatting.black,
-          null_ls.builtins.formatting.fish_indent,
-          -- null_ls.builtins.formatting.isort,
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.clang_format,
-          null_ls.builtins.formatting.shfmt.with({ extra_args = { "-i", 2 } }),
-          null_ls.builtins.diagnostics.fish,
-        },
-        on_attach = function(client, bufnr)
-          local formatter_servers = require("config.lsp").formatter_servers
-          if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = augroup,
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format({
-                  bufnr = bufnr,
-                  async = false,
-                  filter = function(client_)
-                    local res = (
-                      formatter_servers[client_.name] ~= nil
-                      -- Strange form. But a non-nil, non-boolean variable evaluates to true.
-                      and (formatter_servers[client_.name] == true)
-                    ) or client_.name == "null-ls"
-                    return res
-                  end,
-                })
-              end,
-            })
-          end
-        end,
-      }
-    end,
-    config = function(_, opts)
-      require("null-ls").setup(opts)
-
-      local lspconfig = require("config.lsp")
-
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = lspconfig.on_attach,
-      })
-    end,
-  },
+  -- {
+  --   "nvimtools/none-ls.nvim",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --   },
+  --   opts = function()
+  --     local null_ls = require("null-ls")
+  --     local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+  --     return {
+  --       root_dir = require("null-ls.utils").root_pattern(
+  --         ".null-ls-root",
+  --         "Makefile",
+  --         "compile_commands.json",
+  --         ".git",
+  --         "stylua.toml",
+  --         ".luarc.json",
+  --         "pyproject.yaml"
+  --       ),
+  --       sources = {
+  --         null_ls.builtins.formatting.black,
+  --         null_ls.builtins.formatting.fish_indent,
+  --         null_ls.builtins.formatting.isort,
+  --         null_ls.builtins.formatting.stylua,
+  --         null_ls.builtins.formatting.clang_format,
+  --         null_ls.builtins.formatting.shfmt.with({ extra_args = { "-i", 2 } }),
+  --         null_ls.builtins.diagnostics.fish,
+  --       },
+  --       on_attach = function(client, bufnr)
+  --         local formatter_servers = require("config.lsp").formatter_servers
+  --         if client.supports_method("textDocument/formatting") then
+  --           vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+  --           vim.api.nvim_create_autocmd("BufWritePre", {
+  --             group = augroup,
+  --             buffer = bufnr,
+  --             callback = function()
+  --               vim.lsp.buf.format({
+  --                 bufnr = bufnr,
+  --                 async = false,
+  --                 filter = function(client_)
+  --                   local res = (
+  --                     formatter_servers[client_.name] ~= nil
+  --                     -- Strange form. But a non-nil, non-boolean variable evaluates to true.
+  --                     and (formatter_servers[client_.name] == true)
+  --                   ) or client_.name == "null-ls"
+  --                   return res
+  --                 end,
+  --               })
+  --             end,
+  --           })
+  --         end
+  --       end,
+  --     }
+  --   end,
+  --   -- config = function(_, opts)
+  --   --   require("null-ls").setup(opts)
+  --   --
+  --   --   local lspconfig = require("config.lsp")
+  --   --
+  --   --   vim.api.nvim_create_autocmd("LspAttach", {
+  --   --     callback = lspconfig.on_attach,
+  --   --   })
+  --   -- end,
+  -- },
   {
     "smjonas/inc-rename.nvim",
     config = function()
@@ -174,7 +165,7 @@ return {
         lua = { "stylua" },
         fish = { "fish_indent" },
         sh = { "shfmt" },
-        python = { "ruff_format", "ruff_organize_imports", "ruff_fix" },
+        python = { "black", "isort" },
       },
       formatters = {
         injected = { options = { ignore_errors = true } },

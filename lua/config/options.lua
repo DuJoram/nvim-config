@@ -42,7 +42,7 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5                -- Minimum window width
 opt.wrap = false                   -- Disable line wrap
 
-opt.conceallevel = 1
+opt.conceallevel = 0
 -- Requires plugin 'EdenEast/nightfox.nvim' without lazy loading and high priority.
 vim.cmd.colorscheme("nightfox")
 

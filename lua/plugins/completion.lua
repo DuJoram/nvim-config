@@ -17,7 +17,7 @@ return {
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     return {
-      preselect = 'none',
+      preselect = "none",
       completion = {
         completeopt = "menu,menuone,noinsert,noselect",
       },
@@ -88,6 +88,7 @@ return {
         { name = "lua_snip" },
       }, {
         { name = "buffer" },
+        { name = "codecompanion" },
       }),
       enabled = function()
         return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt" or require("cmp_dap").is_dap_buffer()
@@ -108,7 +109,7 @@ return {
       }, {
         { name = "cmdline" },
       }),
-      matching = { disallow_sumbol_nonprefix_matching = false },
+      matching = { disallow_symbol_nonprefix_matching = false },
     })
 
     cmp.setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {

@@ -5,7 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
+      { out, "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -22,7 +22,11 @@ require("lazy").setup({
     { import = "plugins" },
   },
   checker = { enable = true },
-  rocks = { enabled = false },
+  rocks = {
+    enabled = true,
+    root = vim.fn.stdpath("data") .. "/lazy-rocks",
+    server = "https://lumen-oss.github.io/rocks-binaries/",
+  },
 })
 
 -- This "extends" lazy to allow adding the 'wk_groups' key to plugin configurations.

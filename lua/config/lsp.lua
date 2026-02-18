@@ -1,63 +1,4 @@
 local M = {
-  servers = {
-    racket_langserver = {
-      cmd = { "racket", "--lib", "racket-langserver" },
-    },
-    lua_ls = {
-      settings = {
-        Lua = {
-          workspace = {
-            checkThirdParty = false,
-          },
-          codeLens = {
-            enable = true,
-          },
-          completion = {
-            callSnippet = "Replace",
-          },
-          doc = {
-            privateName = { "^_" },
-          },
-          hint = {
-            enable = true,
-            setType = false,
-            paramType = true,
-            paramName = "Disable",
-            semicolon = "Disable",
-            arrayIndex = "Disable",
-          },
-          telemetry = { enable = false },
-        },
-      },
-    },
-    texlab = {
-      settings = {
-        texlab = {
-          build = {
-            executable = "latexmk",
-            args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "-auxdir=build", "%f" },
-            onSave = true,
-            pdfDirectory = ".",
-          },
-          forwardSearch = {
-            executable = "zathura",
-            args = { "--synctex-forward", "%l:1:%f", "%p" },
-          },
-        },
-      },
-    },
-    tinymist = {
-      on_attach = function(client, bufnr)
-        local main = require("config.util").typst_find_main(bufnr)
-        client:exec_cmd({
-          title = "pin",
-          command = "tinymist.pinMain",
-          arguments = { main },
-        }, { bufnr = bufnr })
-        vim.notify("Typst Main: '" .. main .. "'")
-      end,
-    },
-  },
   formatter_servers = {
     racket_langserver = true,
   },
@@ -92,6 +33,7 @@ local M = {
     if client == nil then
       return
     end
+
     local wk = require("which-key")
 
     for _, keymap in ipairs(keymaps) do
