@@ -41,16 +41,18 @@ return {
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
       local symbols = {
-        Stopped             = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-        Breakpoint          = " ",
+        Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+        Breakpoint = " ",
         BreakpointCondition = " ",
-        BreakpointRejected  = { " ", "DiagnosticError" },
-        LogPoint            = ".",
+        BreakpointRejected = { " ", "DiagnosticError" },
+        LogPoint = ".",
       }
       for name, sign in pairs(symbols) do
         sign = type(sign) == "table" and sign or { sign }
-        vim.fn.sign_define("Dap" .. name,
-          { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] })
+        vim.fn.sign_define(
+          "Dap" .. name,
+          { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
+        )
       end
 
       require("config.dap-breakpoints").setup()
@@ -68,32 +70,44 @@ return {
     end,
   },
   {
-    "rcarriga/nvim-dap-ui",
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio",
-    },
-    -- stylua: ignore
+    "igorlfs/nvim-dap-view",
+    lazy = false,
+    version = "1.*",
+    ---@module 'dap-view'
+    ---@type dapbiew.Config
     keys = {
-      { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI" },
-      { "<leader>de", function() require("dapui").eval() end,     desc = "Eval",  mode = { "n", "v" } },
+      { "<leader>du", ":DapViewToggle<CR>", desc = "Dap View Toggle" },
     },
     opts = {},
-    config = function(_, opts)
-      local dap = require("dap")
-      local dapui = require("dapui")
-      dapui.setup(opts)
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open({})
-      end
-      dap.listeners.after.event_terminated["dapui_config"] = function()
-        dapui.close({})
-      end
-      dap.listeners.after.event_exited["dapui_config"] = function()
-        dapui.close({})
-      end
-    end,
   },
+  -- {
+  --   "rcarriga/nvim-dap-ui",
+  --   dependencies = {
+  --     "mfussenegger/nvim-dap",
+  --     "nvim-neotest/nvim-nio",
+  --   },
+  --   -- stylua: ignore
+  --   keys = {
+  --     { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI" },
+  --     { "<leader>de", function() require("dapui").eval() end,     desc = "Eval",  mode = { "n", "v" } },
+  --   },
+  --   opts = {},
+  --   config = function(_, opts)
+  --     local dap = require("dap")
+  --     local dapui = require("dapui")
+  --     dap.defaults.switchbuf = "usevisible,uselast,usetab"
+  --     dapui.setup(opts)
+  --     dap.listeners.after.event_initialized["dapui_config"] = function()
+  --       dapui.open({})
+  --     end
+  --     dap.listeners.after.event_terminated["dapui_config"] = function()
+  --       dapui.close({})
+  --     end
+  --     dap.listeners.after.event_exited["dapui_config"] = function()
+  --       dapui.close({})
+  --     end
+  --   end,
+  -- },
   {
     "theHamsta/nvim-dap-virtual-text",
     opts = {},

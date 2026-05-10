@@ -1,5 +1,4 @@
 local M = {}
-local dap = require("dap")
 
 local session_dir = vim.fs.joinpath(vim.fn.stdpath("state"), "sessions")
 
@@ -40,8 +39,11 @@ function M.load_breakpoints()
       vim.api.nvim_buf_call(bufnr, vim.cmd.edit)
     end
     for _, bp in pairs(breakpoints) do
-      dapbp.set({ condition = bp.condition, log_message = bp.logMessage, hit_condition = bp.hitCondition }, bufnr,
-        bp.line)
+      dapbp.set(
+        { condition = bp.condition, log_message = bp.logMessage, hit_condition = bp.hitCondition },
+        bufnr,
+        bp.line
+      )
     end
   end
 end

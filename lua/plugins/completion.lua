@@ -1,5 +1,6 @@
 return {
   "hrsh7th/nvim-cmp",
+  version = false,
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
@@ -16,8 +17,11 @@ return {
   opts = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
+    vim.lsp.config("*", { capabilities = require("cmp_nvim_lsp").default_capabilities() })
+    vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
+    defaults = require("cmp.config.default")
     return {
-      preselect = "none",
+      preselect = cmp.PreselectMode.None,
       completion = {
         completeopt = "menu,menuone,noinsert,noselect",
       },
@@ -32,10 +36,13 @@ return {
           if cmp.visible() then
             if luasnip.expandable() then
               luasnip.expand()
-            else
+            elseif cmp.get_selected_item ~= nil then
               cmp.confirm({
-                select = true,
+                select = false,
               })
+            else
+              cmp.abort()
+              fallback()
             end
           else
             fallback()
@@ -83,12 +90,13 @@ return {
         }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
       }),
       sources = cmp.config.sources({
-        { name = "lazydev", group_index = 0 },
+        { name = "lazydev" },
         { name = "nvim_lsp" },
-        { name = "lua_snip" },
+        -- { name = "lua_snip" },
+        -- { name = "path" },
       }, {
-        { name = "buffer" },
-        { name = "codecompanion" },
+        -- { name = "codecompanion" },
+        -- { name = "buffer" },
       }),
       enabled = function()
         return vim.api.nvim_get_option_value("buftype", { buf = 0 }) ~= "prompt" or require("cmp_dap").is_dap_buffer()

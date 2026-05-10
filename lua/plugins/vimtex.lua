@@ -10,9 +10,11 @@ return {
       vim.g.vimtex_fold_enabeld = 0
       vim.g.vimtex_format_enabled = 1
       vim.g.vimtex_matchparen_enabled = 1
-      vim.g.vimtex_view_method = "zathura_simple"
-      vim.g.vimtex_view_general_viewer = "zathura"
-      vim.g.vimtex_view_zathura_check_libsynctex = 1
+      vim.g.vimtex_view_general_viewer = "okular"
+      vim.g.vimtex_view_general_options = "--unique file:@pdf\\#src:@line@tex"
+      -- vim.g.vimtex_view_method = "zathura"
+      -- vim.g.vimtex_view_general_viewer = "zathura"
+      -- vim.g.vimtex_view_zathura_check_libsynctex = 1
       vim.g.vimtex_view_automatic = 0
       vim.g.vimtex_view_forward_search_on_start = 0
       vim.g.vimtex_toc_config = {

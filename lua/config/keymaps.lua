@@ -1,5 +1,4 @@
 local wk = require("which-key")
-local lazy_keys = require("lazy.core.handler").handlers.keys
 
 wk.add({
   {

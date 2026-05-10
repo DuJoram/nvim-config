@@ -9,5 +9,5 @@ return {
       dark = "nightfox",
       light = "dayfox",
     },
-  }
+  },
 }

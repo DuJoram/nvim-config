@@ -1,8 +1,13 @@
 return {
   "nvim-telescope/telescope.nvim",
-  tag = "0.1.8",
 
-  depndencies = { "nvim-lua/plenary.nvim" },
+  depndencies = {
+    "nvim-lua/plenary.nvim",
+    {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+    },
+  },
 
   wk_groups = { "<leader>f", desc = "Find" },
 

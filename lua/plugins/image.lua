@@ -7,7 +7,7 @@ return {
       markdown = { enabled = true, filetypes = { "markdown", "vimwiki" } },
       neorg = { enabled = true, filetypes = { "norg" } },
       typst = {
-        enabled = true,
+        enabled = false,
         filetypes = { "typst" },
       },
       html = {

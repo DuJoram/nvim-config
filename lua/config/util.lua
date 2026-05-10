@@ -1,7 +1,7 @@
 local M = {}
 
 function M.typst_find_main(bufnr_or_file)
-  vim.notify("" .. bufnr_or_file)
+  -- vim.notify("" .. bufnr_or_file)
 
   -- Get the starting path (directory of current file)
   local start_path
